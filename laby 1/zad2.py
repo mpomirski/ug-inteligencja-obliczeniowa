@@ -6,12 +6,11 @@ import numpy as np
 
 def projectile_motion(initial_height, launch_angle, initial_speed, x):
     g = 9.81
-    vx = initial_speed * math.cos(math.radians(launch_angle))
-    vy = initial_speed * math.sin(math.radians(launch_angle))
-    return -g/(2*launch_angle**2) * x**2 + math.tan(launch_angle) * x + initial_height
+    return initial_height + x * math.tan(math.radians(launch_angle)) - (g * x**2) / (2 * (initial_speed**2) * math.cos(math.radians(launch_angle))**2)
 
 def calculate_distance(v0: float, theta: float, h0: float = 0.0) -> float:
-    return v0 * math.sin(math.radians(theta)) + math.sqrt(v0**2 * math.sin(math.radians(theta))**2 + 2 * 9.81 * h0) * math.cos(math.radians(theta)) * v0 / 9.81
+    g = 9.81
+    return v0 * math.cos(math.radians(theta)) * (v0 * math.sin(math.radians(theta)) + math.sqrt((v0 * math.sin(math.radians(theta)))**2 + 2 * g * h0)) / g
 
 
 def main():
@@ -30,10 +29,9 @@ def main():
             print(f"Pudło!, rzut wynosił: {calculate_distance(initial_velocity, alpha, height)}m")
             alpha = float(input("Podaj kąt rzutu: "))
 
-    x = np.linspace(0, 340, 100)
+    x = np.linspace(0, calculate_distance(initial_velocity, alpha, height), 100)
     plt.plot(x, projectile_motion(height, alpha, initial_velocity, x), linestyle='solid')
 
-    # plt.axis([0, 300, 0, 140])
     plt.show()
 if __name__ == "__main__":
     main()
