@@ -1,3 +1,4 @@
+# Michał Pomirski 27.02.2024
 import pandas as pd
 
 def clean_up_varieties(df: pd.DataFrame) -> pd.DataFrame:
