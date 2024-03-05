@@ -41,7 +41,7 @@ def clean_up_values(df: pd.DataFrame) -> pd.DataFrame:
 
 def main():
     na_values: list[str] = ["-", "nan"]
-    df: pd.DataFrame  = pd.read_csv("H:\\mpomirski\\4 semestr\\inteligencja obliczeniowa\\laby 2\\iris_with_errors.csv", na_values=na_values)
+    df: pd.DataFrame  = pd.read_csv("iris_with_errors.csv", na_values=na_values)
     print(df.head())
     print("-----------------")
     print("Empty values: ")
