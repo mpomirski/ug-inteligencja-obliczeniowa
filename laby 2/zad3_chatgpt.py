@@ -1,3 +1,4 @@
+# Michał Pomirski 02.03.2024 x ChatGPT
 '''
 Prompt:
 In python, create scatter plots with the data from the iris sklearn dataset for two variables:
