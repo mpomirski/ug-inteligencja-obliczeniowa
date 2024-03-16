@@ -5,36 +5,11 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
-from typing import Any, cast, List
-from graphviz import Digraph
-import math
+from typing import Any, cast
+from NNGraph import NNGraph
 
-SHOW = True
-
-def calculate_stroke_weight(weight: float) -> float:
-    return math.log(abs(weight) + 1)+0.25
-    
-
-def draw_dot(model: MLPClassifier, name: str, labels: List[str]) -> Digraph:
-    dot = Digraph(comment='The Round Table')
-    dot.node('00', 'Sepal Length', group='inputs')
-    dot.node('01', 'Sepal Width', group='inputs')
-    dot.node('02', 'Petal Length', group='inputs')
-    dot.node('03', 'Petal Width', group='inputs')
-    dot.attr(rankdir='LR', size='16!,10!', nodesep='2', ranksep='2', splines='false')
-
-    for layer_no, layer in enumerate(model.coefs_):
-        for i, neuron in enumerate(layer.T):
-            if layer_no == len(model.coefs_) - 1:
-                dot.node(f'{str(layer_no+1) + str(i)}', f'{labels[i]}')
-            else:
-                dot.node(f'{str(layer_no+1) + str(i)}', f'Neuron {layer_no+1}{i}')
-            for j, weight in enumerate(neuron):
-                stroke_weight = calculate_stroke_weight(weight)
-                dot.edge(f'{str(layer_no) + str(j)}', f'{str(layer_no + 1) + str(i)}', xlabel=f'{weight:.2f}', fontsize='10', fontcolor='blue', penwidth=str(stroke_weight))
-
-    return dot
-
+SHOW = False
+GLOBAL_MAX_ITER = 100
 iris: Any = cast(Any, datasets.load_iris())
 
 # Scaling data
@@ -48,50 +23,40 @@ print(f'Test set size: {len(test_set)}')
 
 
 # Training the first model (input, 1 hidden layer with 2 neurons, output)
-model1 = MLPClassifier(hidden_layer_sizes=(2), max_iter=3000, early_stopping=True, n_iter_no_change=100)
-fitted = model1.fit(train_set, train_labels)
-print('Labels:')
-print(iris.target_names)
-print("Weights:")
-print(*model1.coefs_, sep='\n\n')
-print("Biases:")
-print(*model1.intercepts_, sep='\n\n')
-print(fitted.coefs_)
-graph = draw_dot(model1, 'model1', iris.target_names)
-graph.render('model1', format='png', cleanup=True,)
+model1 = MLPClassifier(hidden_layer_sizes=(2), max_iter=GLOBAL_MAX_ITER, n_iter_no_change=GLOBAL_MAX_ITER, learning_rate='adaptive')
+model1.fit(train_set, train_labels)
+graph1 = NNGraph(model1, 'model1', iris.target_names, iris.feature_names)
+graph1.draw_graph()
 
 
 # Testing the first model
 predictions = model1.predict(test_set)
 model1.score(test_set, test_labels)
-print(f'Accuracy of the first model: {accuracy_score(test_labels, predictions)}')
+print(f'Accuracy of the first model: {accuracy_score(test_labels, predictions):.2f}')
 
 
 # Training the second model (input, 1 hidden layers with 3 neurons, output)
-model2 = MLPClassifier(hidden_layer_sizes=(3), max_iter=3000)
+model2 = MLPClassifier(hidden_layer_sizes=(3), max_iter=GLOBAL_MAX_ITER, n_iter_no_change=GLOBAL_MAX_ITER, learning_rate='adaptive')
 model2.fit(train_set, train_labels)
 
-graph = draw_dot(model2, 'model2', iris.target_names)
-graph.render('model2', format='png', cleanup=True,)
+graph2 = NNGraph(model2, 'model2', iris.target_names, iris.feature_names)
+graph2.draw_graph()
 
 # Testing the second model
 predictions2 = model2.predict(test_set)
-print(f'Accuracy of the second model: {accuracy_score(test_labels, predictions2)}')
-
-
-
+print(f'Accuracy of the second model: {accuracy_score(test_labels, predictions2):.2f}')
 
 
 # Training the third model (input, 2 hidden layers with 3 neurons, output)
-model3 = MLPClassifier(hidden_layer_sizes=(3, 3), max_iter=3000)
+model3 = MLPClassifier(hidden_layer_sizes=(3, 3), max_iter=GLOBAL_MAX_ITER, n_iter_no_change=GLOBAL_MAX_ITER, learning_rate='adaptive')
 model3.fit(train_set, train_labels)
 
-graph = draw_dot(model3, 'model3', iris.target_names)
-graph.render('model3', format='png', cleanup=True,)
+graph3 = NNGraph(model3, 'model3', iris.target_names, iris.feature_names)
+graph3.draw_graph()
 
 # Testing the third model
 predictions3 = model3.predict(test_set)
-print(f'Accuracy of the third model: {accuracy_score(test_labels, predictions3)}')
+print(f'Accuracy of the third model: {accuracy_score(test_labels, predictions3):.2f}')
 
 
 
