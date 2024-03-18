@@ -1,4 +1,3 @@
-from matplotlib.pylab import f
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
