@@ -1,3 +1,5 @@
 laby
 ./laby
 venv
+dataset_dogs_vs_cats
+__pycache__
