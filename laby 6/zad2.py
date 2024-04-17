@@ -18,3 +18,4 @@ for i in range(row):
         better_gray[i, j] = 0.299 * better_gray[i, j][0] + 0.587 * better_gray[i, j][1] + 0.114 * better_gray[i, j][2]
 cv2.imshow('image-better', better_gray)
 cv2.waitKey(0)
+print("Obraz z wykorzystaniem lepszego wzoru wydaje się mieć nieco więcej głębi, ale różnica nie jest zbyt duża.")
