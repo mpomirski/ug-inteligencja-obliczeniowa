@@ -89,6 +89,8 @@ print(f'Accuracy of the model: {accuracy_score(test_labels, predictions):.2f}')
 matrix = confusion_matrix(test_labels, predictions)
 print(matrix)
 
+NNGraph(model5, 'model-diabetes', ['0', '1'], list(df.columns[:-1])).draw_graph()
+
 print("Wszystkie modele osiągnęły podobne rezultaty, z wyjątkiem modelu ze znacząco zwiększoną warstwą ukrytą (30, 15), który mimo tego osiągnął tylko nieco lepszy wynik.")
 print("We wszystkich modelach więcej jest wskazań False Negative, które oznaczają zaklasyfikowanie osoby jako zdrowej, mimo że faktycznie jest chora.")
 print("Błędy FN są gorsze niż FP, ponieważ osoba chora, która zostanie zaklasyfikowana jako zdrowa \n\
