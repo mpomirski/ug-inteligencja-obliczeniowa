@@ -1,3 +1,6 @@
+# Michał Pomirski 11.06.2024
+# Chromosomy - lista akcji (0, 1, 2, 3) - ruchy w lewo, prawo, góra, dół
+# Fitness - suma odległości od celu (7, 7) w każdym ruchu
 import gymnasium as gym
 import numpy as np
 import pygad

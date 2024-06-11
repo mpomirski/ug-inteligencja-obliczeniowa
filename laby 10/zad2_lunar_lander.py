@@ -1,3 +1,6 @@
+# Michał Pomirski 11.06.2024
+# Chromosomy - lista akcji (0, 1, 2, 3) - odpowiadające silnikom w Lunar Lander
+# Fitness - suma nagród z gry
 import gymnasium as gym
 import numpy as np
 import pygad

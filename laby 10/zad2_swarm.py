@@ -1,3 +1,7 @@
+# Michał Pomirski 11.06.2024
+# Fitness - suma nagród z gry
+
+
 import gymnasium as gym
 import numpy as np
 import pyswarms as ps
