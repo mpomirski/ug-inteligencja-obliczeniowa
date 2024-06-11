@@ -5,7 +5,7 @@ import math
 class NNGraph:
     def __init__(self, model: MLPClassifier, name: str, labels: List[str], input_names: List[str]) -> None:
         self.dot = Digraph(engine='neato')
-        self.dot.attr(rankdir='LR', size='16!,10!', nodesep='2', ranksep='2', splines='false', dim='3', overlap='false', pad='0.5,0.5')
+        self.dot.attr(rankdir='LR', size='16,10', nodesep='2', ranksep='2', splines='false', dim='3', overlap='false', pad='0.5,0.5')
         self.name = name
         self.labels = labels
         self.model = model
@@ -35,9 +35,9 @@ class NNGraph:
         for layer_no, layer in enumerate(self.model.coefs_):
             for i, neuron in enumerate(layer.T):
                 if layer_no == len(self.model.coefs_) - 1:
-                    self.dot.node(f'{str(layer_no+1) + str(i)}', f'{self.labels[i]}', pos=f'{len(self.model.coefs_)+2},{i+0.5}!', group='outputs')
+                    self.dot.node(f'{str(layer_no+1) + str(i)}', f'{self.labels[i]}', pos=f'{(len(self.model.coefs_)*10)},{i+0.5}!', group='outputs')
                 else:
-                    self.dot.node(f'{str(layer_no+1) + str(i)}', f'Neuron {layer_no+1}{i}', pos=f'{layer_no+2},{self._calculate_position(len(layer.T))[i]}!')
+                    self.dot.node(f'{str(layer_no+1) + str(i)}', f'Neuron {layer_no+1}{i}', pos=f'{(layer_no+2)*4+5},{self._calculate_position(len(layer.T))[i]}!')
                 for j, weight in enumerate(neuron):
                     stroke_weight = self._calculate_stroke_weight(weight)
                     self.dot.edge(f'{str(layer_no) + str(j)}', f'{str(layer_no + 1) + str(i)}', xlabel=f'{weight:.2f}', fontsize='6!', fontcolor='blue' if weight > 0 else 'red', penwidth=str(stroke_weight), color='blue' if weight > 0 else 'red')
